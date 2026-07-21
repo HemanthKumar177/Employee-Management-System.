@@ -9,7 +9,7 @@ RUN ./mvnw clean package -DskipTests
 
 # STAGE-2 RUN
 
-FROM eclipse-temurin:21-jdk
+FROM eclipse-temurin:21-jre
 
 WORKDIR /app
 
