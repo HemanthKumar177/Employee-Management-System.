@@ -17,6 +17,7 @@ metadata:
   name: mysql-pvc
   namespace: rigel
 spec:
+  storageclassname: gp3
   accessModes:
     - ReadWriteOnce
   resources:
