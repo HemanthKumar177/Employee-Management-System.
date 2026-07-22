@@ -1,48 +1,49 @@
----
 apiVersion: v1
-kind: secret
-metadata: 
+kind: Secret
+metadata:
   name: mysql-secret
   namespace: rigel
 type: Opaque
 stringData:
-  MYSQL_ROOT_PASSWORD: root
-  MYSQL_DATABASE: employee_dba
+  MYSQL_ROOT_PASSWORD: root123
+  MYSQL_DATABASE: employee_db
   MYSQL_USER: emsuser
-  MYSQL_PASSWORD: password 
+  MYSQL_PASSWORD: password123
+
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: mysql-pvc
-  namespace: rigel 
-  spec: 
-    accessModes:
-      - ReadWriteOnce
-    resources:
-      requests:
-        storage: 4Gi
+  namespace: rigel
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+
 ---
 apiVersion: apps/v1
 kind: StatefulSet
-Metadata:
-  name: mysql 
-  namespace: rigel 
+metadata:
+  name: mysql
+  namespace: rigel
 spec:
-  servicename: mysql
-  replicas: 2
-  selector: 
-  matchLabels:
-    app: mysql
-    template: 
-    metadata:
-    labels:
+  serviceName: mysql
+  replicas: 1
+  selector:
+    matchLabels:
       app: mysql
----
+  template:
+    metadata:
+      labels:
+        app: mysql
     spec:
       containers:
         - name: mysql
           image: mysql:8.0
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 3306
           env:
@@ -66,6 +67,14 @@ spec:
                 secretKeyRef:
                   name: mysql-secret
                   key: MYSQL_PASSWORD
+          volumeMounts:
+            - name: mysql-storage
+              mountPath: /var/lib/mysql
+      volumes:
+        - name: mysql-storage
+          persistentVolumeClaim:
+            claimName: mysql-pvc
+
 ---
 apiVersion: v1
 kind: Service
@@ -75,15 +84,7 @@ metadata:
 spec:
   selector:
     app: mysql
-
   ports:
     - port: 3306
       targetPort: 3306
-
-  type: ClusterIP                  
-
-  
-  
-
- 
- 
+  type: ClusterIP
