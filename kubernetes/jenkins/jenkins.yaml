@@ -1,0 +1,63 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: jenkins-pvc
+  namespace: rigel
+spec:
+  storageClassName: gp3
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion:
+kind: Deployment
+metadata:
+  name: jenkins
+  namespace: rigel
+spec:
+  replicas: 2
+  selector:
+   matchLabels:
+    app: jenkins
+  template:
+   metadata:
+    labels:
+     app: jenkins
+spec:
+  containers:
+   - name: jenkins
+     image: jenkins/jenkins:lts
+     imagePullPolicy: IfNotPresent
+     ports:
+      - containerPort: 8080
+      - containerPort: 50000
+     volumeMounts:
+       - name: jenkins-storage
+         mounthpath: /var/lib/jenkins_home
+     volumes: 
+      - name: jenkins-storage
+  PersistentVolumeClaim:
+   claimName: jenkins-pvc
+---
+apiVersion:
+kind: Service
+metadata:
+ name: jenkins
+ namespace: rigel
+spec: 
+  selector:
+    app: jenkins
+    ports:
+     - name: web
+       port: 8080
+       targetPort: 8080
+     - name: agent 
+       port: 50000
+       targetPort: 50000
+  type: ClusterIP
+
+
+
+        
