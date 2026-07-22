@@ -11,7 +11,7 @@ spec:
     requests:
       storage: 1Gi
 ---
-apiVersion:
+apiVersion: v1
 kind: Deployment
 metadata:
   name: jenkins
@@ -41,22 +41,25 @@ spec:
   PersistentVolumeClaim:
    claimName: jenkins-pvc
 ---
-apiVersion:
+apiVersion: v1
 kind: Service
 metadata:
  name: jenkins
  namespace: rigel
 spec: 
+  type: NodePort
   selector:
     app: jenkins
     ports:
      - name: web
        port: 8080
        targetPort: 8080
+       nodeport: 32080
      - name: agent 
        port: 50000
        targetPort: 50000
-  type: ClusterIP
+       nodeport: 32050
+
 
 
 
