@@ -15,9 +15,9 @@ import java.util.List;
 @RequestMapping("/api/v1/employees")
 public class EmployeeController {
 
-    private EmployeeService employeeService;
+    private final EmployeeService employeeService;
 
-    // Build Add Employee REST API
+    // Add Employee REST API
     @PostMapping("/add")
     public ResponseEntity<EmployeeDto> createEmployee(@RequestBody EmployeeDto employeeDto) {
 
@@ -26,7 +26,7 @@ public class EmployeeController {
         return new ResponseEntity<>(savedEmployee, HttpStatus.CREATED);
     }
 
-    // Build Get Employee REST API
+    // Get Employee By ID REST API
     @GetMapping("/{id}")
     public ResponseEntity<EmployeeDto> getEmployeeById(@PathVariable Long id) {
 
@@ -35,8 +35,8 @@ public class EmployeeController {
         return ResponseEntity.ok(employeeDto);
     }
 
-    // Build Get All Employee REST API
-    @GetMapping("/")
+    // Get All Employees REST API
+    @GetMapping
     public ResponseEntity<List<EmployeeDto>> getAllEmployees() {
 
         List<EmployeeDto> employees = employeeService.getAllEmployees();
@@ -44,7 +44,7 @@ public class EmployeeController {
         return ResponseEntity.ok(employees);
     }
 
-    // NEW Search Employee REST API
+    // Search Employees REST API
     @GetMapping("/search")
     public ResponseEntity<List<EmployeeDto>> searchEmployees(
             @RequestParam String keyword) {
@@ -54,7 +54,7 @@ public class EmployeeController {
         return ResponseEntity.ok(employees);
     }
 
-    // Build Update Employee REST API
+    // Update Employee REST API
     @PutMapping("/update/{id}")
     public ResponseEntity<EmployeeDto> updateEmployee(
             @PathVariable Long id,
@@ -66,7 +66,7 @@ public class EmployeeController {
         return ResponseEntity.ok(updatedEmployee);
     }
 
-    // Build Delete Employee REST API
+    // Delete Employee REST API
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteEmployee(@PathVariable Long id) {
 
