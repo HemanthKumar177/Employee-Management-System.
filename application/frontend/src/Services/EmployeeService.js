@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // Base URL for all employee APIs
-const EMPLOYEE_API_BASE_URL = "http://localhost:8080/api/v1/employees";
+const EMPLOYEE_API_BASE_URL = "/api/v1/employees";
 
 // Get all employees
 export const listEmployees = () =>
