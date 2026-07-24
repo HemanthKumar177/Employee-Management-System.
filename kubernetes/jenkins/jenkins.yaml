@@ -55,17 +55,9 @@ metadata:
   name: jenkins
   namespace: rigel
 spec:
-  type: NodePort
   selector:
     app: jenkins
   ports:
-    - name: web
-      protocol: TCP
-      port: 8080
+    - port: 8080
       targetPort: 8080
-      nodePort: 32080
-    - name: agent
-      protocol: TCP
-      port: 50000
-      targetPort: 50000
-      nodePort: 32050
+  type: ClusterIP
