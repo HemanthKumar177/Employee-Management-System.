@@ -19,6 +19,8 @@ RUN npm run build
 #Stage-2 Nignx for serving the staic files
 FROM nginx:alpine
 
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
 # Copies the files from builder stage and stores in /usr/share/nginx/html ( default website folder of nginx)
 COPY --from=builder /app/dist /usr/share/nginx/html
 
