@@ -25,7 +25,7 @@ spec:
   template:
     metadata:
       labels:
-        app: jenkins
+        app: jenkins 
     spec:
       securityContext:
         runAsUser: 1000
@@ -36,9 +36,7 @@ spec:
           image: jenkins/jenkins:lts
           imagePullPolicy: IfNotPresent
 
-          env:
-            - name: JENKINS_OPTS
-              value: "--prefix=/jenkins"
+        
 
           ports:
             - containerPort: 8080
