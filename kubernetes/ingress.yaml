@@ -12,28 +12,41 @@ metadata:
 spec:
   ingressClassName: alb
   rules:
-    - http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: frontend
-                port:
-                  number: 80
 
-          - path: /api
-            pathType: Prefix
-            backend:
-              service:
-                name: backend
-                port:
-                  number: 8080
+  - host: rigelapp.training.azuga.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: frontend
+            port:
+              number: 80
 
-          - path: /jenkins
-            pathType: Prefix
-            backend:
-              service:
-                name: jenkins
-                port:
-                  number: 8080
+      - path: /api
+        pathType: Prefix
+        backend:
+          service:
+            name: backend
+            port:
+              number: 8080
+
+      - path: /jenkins
+        pathType: Prefix
+        backend:
+          service:
+            name: jenkins
+            port:
+              number: 8080
+
+  - host: jenkinsrig.training.azuga.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: jenkins
+            port:
+              number: 8080
