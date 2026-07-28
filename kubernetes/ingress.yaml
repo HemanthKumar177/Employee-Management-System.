@@ -4,9 +4,10 @@ metadata:
   name: rigel-ingress
   namespace: rigel
   annotations:
-    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/scheme: internel
     alb.ingress.kubernetes.io/target-type: ip
-    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80}]'
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80}, {"HTTPS":443}]'
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-west-1:725128686347:certificate/5a4a1344-e3eb-43b6-8299-c5200e3f3931
     alb.ingress.kubernetes.io/healthcheck-path: /
     external-dns.alpha.kubernetes.io/hostname: rigelapp.training.azuga.com,jenkinsrig.training.azuga.com
 spec:
