@@ -32,7 +32,7 @@ metadata:
   namespace: rigel
 spec:
   serviceName: mysql
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: mysql
