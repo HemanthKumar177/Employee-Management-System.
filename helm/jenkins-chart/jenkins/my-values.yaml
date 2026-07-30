@@ -29,7 +29,7 @@ controller:
       alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80},{"HTTPS":443}]'
       alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-west-1:725128686347:certificate/5a4a1344-e3eb-43b6-8299-c5200e3f3931
       alb.ingress.kubernetes.io/ssl-redirect: "443"
-      alb.ingress.kubernetes.io/healthcheck-path: /
+      alb.ingress.kubernetes.io/healthcheck-path: /login
       external-dns.alpha.kubernetes.io/hostname: jenkinsrig.training.azuga.com
 
 persistence:
