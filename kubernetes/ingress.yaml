@@ -10,11 +10,11 @@ metadata:
     alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-west-1:725128686347:certificate/5a4a1344-e3eb-43b6-8299-c5200e3f3931
     alb.ingress.kubernetes.io/ssl-redirect: "443"
     alb.ingress.kubernetes.io/healthcheck-path: /
-    external-dns.alpha.kubernetes.io/hostname: rigelapp.training.azuga.com,jenkinsrig.training.azuga.com
+    external-dns.alpha.kubernetes.io/hostname: rigelapp.training.azuga.com
+
 spec:
   ingressClassName: alb
   rules:
-
   - host: rigelapp.training.azuga.com
     http:
       paths:
@@ -31,24 +31,5 @@ spec:
         backend:
           service:
             name: backend
-            port:
-              number: 8080
-
-      - path: /jenkins
-        pathType: Prefix
-        backend:
-          service:
-            name: jenkins
-            port:
-              number: 8080
-
-  - host: jenkinsrig.training.azuga.com
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: jenkins
             port:
               number: 8080
