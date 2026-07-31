@@ -1,0 +1,30 @@
+image:
+  repository: mysql
+  tag: "8.0"
+  pullPolicy: IfNotPresent
+
+replicaCount: 1
+
+service:
+  type: ClusterIP
+  port: 3306
+
+auth:
+  rootPassword: root123
+  database: employee_db
+  username: emsuser
+  password: password123
+
+persistence:
+  enabled: true
+  storageClass: gp3
+  accessMode: ReadWriteOnce
+  size: 5Gi
+
+resources:
+  requests:
+    cpu: 250m
+    memory: 512Mi
+  limits:
+    cpu: 500m
+    memory: 1Gi
