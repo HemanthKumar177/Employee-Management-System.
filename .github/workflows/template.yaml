@@ -1,5 +1,4 @@
-
-name: Build and Push to Amazon ECR
+name: Build and Push Docker Images to Amazon ECR
 
 on:
   push:
@@ -10,13 +9,16 @@ permissions:
   id-token: write
   contents: read
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
+env:
+  AWS_REGION: us-west-1
 
-    env:
-      AWS_REGION: us-west-1
-      ECR_REPOSITORY: rigel-ems-app
+  APP_ECR_REPOSITORY: rigel-ems-app
+  JENKINS_ECR_REPOSITORY: rigel-jenkins
+
+jobs:
+  build-and-push:
+    name: Build and Push Images
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Repository
@@ -26,30 +28,53 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::725128686347:role/github-actions-codeartifact-role
-          aws-region: us-west-1
+          aws-region: ${{ env.AWS_REGION }}
 
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Build Backend Docker Image
+      
+      # Backend
+      
+
+      - name: Build Backend Image
         run: |
           docker build \
-            -t ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:backend-latest \
+            -t ${{ steps.login-ecr.outputs.registry }}/${{ env.APP_ECR_REPOSITORY }}:backend-latest \
             ./application/backend
 
-      - name: Push Backend Docker Image
+      - name: Push Backend Image
         run: |
           docker push \
-            ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:backend-latest
+            ${{ steps.login-ecr.outputs.registry }}/${{ env.APP_ECR_REPOSITORY }}:backend-latest
 
-      - name: Build Frontend Docker Image
+      
+      # Frontend
+      
+
+      - name: Build Frontend Image
         run: |
           docker build \
-            -t ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:frontend-latest \
+            -t ${{ steps.login-ecr.outputs.registry }}/${{ env.APP_ECR_REPOSITORY }}:frontend-latest \
             ./application/frontend
 
-      - name: Push Frontend Docker Image
+      - name: Push Frontend Image
         run: |
           docker push \
-            ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:frontend-latest
+            ${{ steps.login-ecr.outputs.registry }}/${{ env.APP_ECR_REPOSITORY }}:frontend-latest
+
+      
+      # Jenkins
+      
+
+      - name: Build Jenkins Image
+        run: |
+          docker build \
+            -t ${{ steps.login-ecr.outputs.registry }}/${{ env.JENKINS_ECR_REPOSITORY }}:jenkins-latest \
+            ./jenkins
+
+      - name: Push Jenkins Image
+        run: |
+          docker push \
+            ${{ steps.login-ecr.outputs.registry }}/${{ env.JENKINS_ECR_REPOSITORY }}:jenkins-latest
