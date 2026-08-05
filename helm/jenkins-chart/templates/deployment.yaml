@@ -17,6 +17,8 @@ spec:
         app: {{ .Release.Name }}
 
     spec:
+      serviceAccountName: jenkins 
+
       securityContext:
         runAsUser: 1000
         runAsGroup: 1000
