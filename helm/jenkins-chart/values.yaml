@@ -1,9 +1,9 @@
 replicaCount: 1
 
 image:
-  repository: jenkins/jenkins
-  tag: lts
-  pullPolicy: IfNotPresent
+  repository: 725128686347.dkr.ecr.us-west-1.amazonaws.com/rigel-jenkins
+  tag: jenkins-latest
+  pullPolicy: Always
 
 service:
   type: ClusterIP
