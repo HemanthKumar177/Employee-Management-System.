@@ -17,7 +17,7 @@ spec:
     - host: rigelapp.training.azuga.com
       http:
         paths:
-          - path: /api
+          - path: /api/v1/employees
             pathType: Prefix
             backend:
               service:
